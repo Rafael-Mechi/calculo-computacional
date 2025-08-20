@@ -3,15 +3,7 @@ import pandas as pd
 import time as time
 import datetime as datetime
 
-dados = {
-
-}
-
-
-metricasTimeStamp = []
-metricasCpu = []
-metricasRam = []
-metricasDisco = []
+dados = []
 
 while True:
     percentual_cpu = psutil.cpu_percent(interval=1, percpu=False)
@@ -26,24 +18,23 @@ while True:
     captura_disco = psutil.disk_usage('/')
     percentual_disco = captura_disco.percent
 
-    metricasTimeStamp.append(dataHoraFormatado)
-    metricasCpu.append(percentual_cpu)
-    metricasRam.append(percentual_ram)
-    metricasDisco.append(percentual_disco)
+    print(dataHoraFormatado)
+    print(percentual_cpu)
+    print(percentual_ram)
+    print(percentual_disco)
 
-    print(metricasTimeStamp)
-    print(metricasCpu)
-    print(metricasRam)
-    print(metricasDisco)
-
-    dados = {
-    "timestamp": metricasTimeStamp,
-    "cpu": metricasCpu,
-    "ram": metricasRam,
-    "disco": metricasDisco
+    metricas = {
+    "timestamp": dataHoraFormatado,
+    "cpu": percentual_cpu,
+    "ram": percentual_ram,
+    "disco": percentual_disco
     }
 
+    dados.append(metricas)
+
+    print(dados)
+
     df = pd.DataFrame(dados)
-    df.to_csv("captura-de-dados", encoding="utf-8", index=False)
+    df.to_csv("captura-de-dados.csv", encoding="utf-8", index=False)
     
     time.sleep(9)
