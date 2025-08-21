@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime, timedelta
+import pandas as pd
 
 while True:
     print()
@@ -28,4 +29,17 @@ while True:
                 print("Horário não encontrado")
 
     
-        
+    elif interacao == 3:
+        df = pd.read_csv('captura-de-dados.csv', parse_dates=["timestamp"])
+        print(df)
+
+        minutos_str = input("Insira os minutos: ")
+        minutos = int(minutos_str)
+
+        conversao = timedelta(minutes=minutos)
+
+        limite = df["timestamp"].max() - conversao
+
+        filtroDisco = df[df["timestamp"] >= limite]["disco"].mean()
+
+        print(f"Média das últimas {conversao}: {filtroDisco}")
